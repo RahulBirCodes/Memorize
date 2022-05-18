@@ -15,14 +15,14 @@ struct MemoryGameThemes {
     private(set) var randomNumOfPairs: Bool?
     
     mutating func randomizePairsNum() {
-        pairsOfCards = Int.random(in: 1...emojiSet.count)
+        pairsOfCards = Int.random(in: 2...emojiSet.count)
         print(pairsOfCards)
     }
     
     init(name: String, emojis: [String], color: String, randomized: Bool) {
         var pairs = emojis.count
         if randomized {
-            pairs = Int.random(in: 1...emojis.count)
+            pairs = Int.random(in: 2...emojis.count)
         }
         self.init(name: name, emojis: emojis, pairs: pairs, color: color)
         randomNumOfPairs = randomized ? true : nil

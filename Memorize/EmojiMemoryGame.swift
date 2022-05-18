@@ -24,15 +24,15 @@ class EmojiMemoryGame: ObservableObject {
                                    randomized: true),
                   MemoryGameThemes(name: "Weather",
                                    emojis: ["☀️", "🌤", "⛅️", "☁️", "🌦", "🌧", "⛈", "🌩", "🌨"],
-                                   color: "green",
+                                   color: "blue to pink",
                                    randomized: true),
                   MemoryGameThemes(name: "Sports",
                                    emojis: ["⚽️", "🏀", "🏈", "⚾️", "🥎", "🎾", "🏐", "🏉", "🥏", "🎱"],
                                    pairs: 20,
-                                   color: "orange"),
+                                   color: "orange to gray"),
                   MemoryGameThemes(name: "Fruits",
                                    emojis: ["🍏", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝"],
-                                   color: "purple",
+                                   color: "green to red",
                                    randomized: false)]
     
 //    static func createMemoryGame(theme: MemoryGameThemes) -> MemoryGame<String> {
@@ -60,22 +60,39 @@ class EmojiMemoryGame: ObservableObject {
         return model.score
     }
     
-    var themeColor: Color {
+    var themeColor: LinearGradient {
         switch currentTheme.color {
+        // Solid colors
         case "red":
-            return Color.red
+            return LinearGradient(colors: [.red], startPoint: .top, endPoint: .bottom)
         case "blue":
-            return Color.blue
+            return LinearGradient(colors: [.blue], startPoint: .top, endPoint: .bottom)
         case "black":
-            return Color.black
+            return LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom)
         case "green":
-            return Color.green
+            return LinearGradient(colors: [.green], startPoint: .top, endPoint: .bottom)
         case "orange":
-            return Color.orange
+            return LinearGradient(colors: [.orange], startPoint: .top, endPoint: .bottom)
         case "purple":
-            return Color.purple
+            return LinearGradient(colors: [.purple], startPoint: .top, endPoint: .bottom)
+        // Gradients
+        case "blue to pink":
+            return LinearGradient(colors: [Color(red: 0.38, green: 0.64, blue: 0.84, opacity: 1.0),
+                                           Color(red: 1.0, green: 0.52, blue: 0.69, opacity: 1.0)],
+                                  startPoint: .top,
+                                  endPoint: .bottom)
+        case "orange to gray":
+            return LinearGradient(colors: [Color(red: 0.96, green: 0.47, blue: 0.12, opacity: 1.0),
+                                           Color(red: 0.40, green: 0.60, blue: 0.60, opacity: 1.0)],
+                                  startPoint: .top,
+                                  endPoint: .bottom)
+        case "green to red":
+            return LinearGradient(colors: [Color(red: 0.42, green: 0.90, blue: 0.52, opacity: 1.0),
+                                           Color(red: 0.87, green: 0.24, blue: 0.33, opacity: 1.0)],
+                                  startPoint: .top,
+                                  endPoint: .bottom)
         default:
-            return Color.black
+            return LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom)
         }
     }
     

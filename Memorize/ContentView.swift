@@ -28,7 +28,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .foregroundColor(viewModel.themeColor)
+            .foregroundStyle(viewModel.themeColor)
             
             Spacer()
             newGame
