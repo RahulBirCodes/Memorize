@@ -42,7 +42,7 @@ class EmojiMemoryGame: ObservableObject {
 //    }
     
     @Published private var model: MemoryGame<String>
-    @Published private var currentTheme: MemoryGameThemes
+    @Published private(set) var currentTheme: MemoryGameThemes
     
     init() {
         let newTheme = EmojiMemoryGame.themes.randomElement()!
