@@ -13,7 +13,7 @@ struct MemoryGameThemes {
     var pairsOfCards: Int
     var color: String
     
-    
+    // adding comment
     init(name: String, emojis: [String], pairs: Int, color: String) {
         // Initialize theme name and color
         self.name = name
