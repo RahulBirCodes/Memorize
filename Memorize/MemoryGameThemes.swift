@@ -30,8 +30,6 @@ struct MemoryGameThemes {
         let shuffledEmojis = emojis.shuffled()
         
         for i in 0..<pairsOfCards {
-            print(pairs)
-            print("\(name) - \(i)")
             emojiSet.append(shuffledEmojis[i])
         }
     }
