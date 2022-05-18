@@ -20,20 +20,20 @@ class EmojiMemoryGame: ObservableObject {
                                    color: "blue"),
                   MemoryGameThemes(name: "Tech",
                                    emojis: ["⌚️", "📱", "💻", "⌨️", "🖥", "🖨", "🖱"],
-                                   pairs: 7,
-                                   color: "black"),
+                                   color: "black",
+                                   randomized: true),
                   MemoryGameThemes(name: "Weather",
                                    emojis: ["☀️", "🌤", "⛅️", "☁️", "🌦", "🌧", "⛈", "🌩", "🌨"],
-                                   pairs: 9,
-                                   color: "green"),
+                                   color: "green",
+                                   randomized: true),
                   MemoryGameThemes(name: "Sports",
                                    emojis: ["⚽️", "🏀", "🏈", "⚾️", "🥎", "🎾", "🏐", "🏉", "🥏", "🎱"],
                                    pairs: 20,
                                    color: "orange"),
                   MemoryGameThemes(name: "Fruits",
                                    emojis: ["🍏", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝"],
-                                   pairs: 47,
-                                   color: "purple")]
+                                   color: "purple",
+                                   randomized: false)]
     
 //    static func createMemoryGame(theme: MemoryGameThemes) -> MemoryGame<String> {
 //        MemoryGame<String>(numberOfPairsOfCards: currentTheme.pairsOfCards) { pairIndex in
@@ -86,7 +86,10 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     func createNewRandomizedGame() {
-        let newTheme = EmojiMemoryGame.themes.randomElement()!
+        var newTheme = EmojiMemoryGame.themes.randomElement()!
+        
+        if newTheme.randomNumOfPairs != nil { newTheme.randomizePairsNum() }
+        
         model = MemoryGame<String>(numberOfPairsOfCards: newTheme.pairsOfCards) { pairIndex in
             newTheme.emojiSet[pairIndex]
         }

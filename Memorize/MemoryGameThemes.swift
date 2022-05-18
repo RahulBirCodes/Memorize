@@ -8,21 +8,35 @@
 import Foundation
 
 struct MemoryGameThemes {
-    var name: String
-    var emojiSet: [String]
-    var pairsOfCards: Int
-    var color: String
+    private(set) var name: String
+    private(set) var emojiSet: [String]
+    private(set) var pairsOfCards: Int
+    private(set) var color: String
+    private(set) var randomNumOfPairs: Bool?
     
-    // adding comment
-    init(name: String, emojis: [String], pairs: Int, color: String) {
+    mutating func randomizePairsNum() {
+        pairsOfCards = Int.random(in: 1...emojiSet.count)
+        print(pairsOfCards)
+    }
+    
+    init(name: String, emojis: [String], color: String, randomized: Bool) {
+        var pairs = emojis.count
+        if randomized {
+            pairs = Int.random(in: 1...emojis.count)
+        }
+        self.init(name: name, emojis: emojis, pairs: pairs, color: color)
+        randomNumOfPairs = randomized ? true : nil
+
+    }
+    
+    init(name: String, emojis: [String], pairs: Int?, color: String) {
         // Initialize theme name and color
         self.name = name
         self.color = color
         
         // Initialize pairs
-        if pairs > emojis.count {
-            pairsOfCards = emojis.count
-        } else {
+        pairsOfCards = emojis.count
+        if let pairs = pairs, pairs < pairsOfCards {
             pairsOfCards = pairs
         }
         
