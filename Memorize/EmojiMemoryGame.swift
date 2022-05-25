@@ -9,6 +9,7 @@ import SwiftUI
 
 
 class EmojiMemoryGame: ObservableObject {
+    typealias Card = MemoryGame<String>.Card
     
     private static var themes = [MemoryGameThemes(name: "Vehicles",
                                    emojis: ["🚀", "🛸", "🚁", "🛶", "⛵️", "🚢", "🚗", "🏎", "🚛", "🚲", "🛴", "🚟", "🚊", "🛫", "🛬", "🛩", "🛰", "🚞", "🚄", "🚅", "🚝", "🚉", "🛳", "🚤"],
@@ -20,7 +21,7 @@ class EmojiMemoryGame: ObservableObject {
                                    color: "blue"),
                   MemoryGameThemes(name: "Tech",
                                    emojis: ["⌚️", "📱", "💻", "⌨️", "🖥", "🖨", "🖱"],
-                                   color: "black",
+                                   color: "gray",
                                    randomized: true),
                   MemoryGameThemes(name: "Weather",
                                    emojis: ["☀️", "🌤", "⛅️", "☁️", "🌦", "🌧", "⛈", "🌩", "🌨"],
@@ -52,7 +53,7 @@ class EmojiMemoryGame: ObservableObject {
         currentTheme = newTheme
     }
     
-    var cards: Array<MemoryGame<String>.Card> {
+    var cards: Array<Card> {
         return model.cards
     }
     
@@ -67,8 +68,8 @@ class EmojiMemoryGame: ObservableObject {
             return LinearGradient(colors: [.red], startPoint: .top, endPoint: .bottom)
         case "blue":
             return LinearGradient(colors: [.blue], startPoint: .top, endPoint: .bottom)
-        case "black":
-            return LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom)
+        case "gray":
+            return LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom)
         case "green":
             return LinearGradient(colors: [.green], startPoint: .top, endPoint: .bottom)
         case "orange":
@@ -98,7 +99,7 @@ class EmojiMemoryGame: ObservableObject {
     
     // MARK: - Intent(s)
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         model.choose(card)
     }
     
