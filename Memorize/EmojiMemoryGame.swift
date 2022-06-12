@@ -108,9 +108,13 @@ class EmojiMemoryGame: ObservableObject {
         
         if newTheme.randomNumOfPairs != nil { newTheme.randomizePairsNum() }
         
-        model = MemoryGame<String>(numberOfPairsOfCards: newTheme.pairsOfCards) { pairIndex in
-            newTheme.emojiSet[pairIndex]
-        }
+        model.newCardDeck(pairs: newTheme.pairsOfCards) { newTheme.emojiSet[$0] }
+        
+//        model = MemoryGame<String>(numberOfPairsOfCards: newTheme.pairsOfCards) { pairIndex in
+//            newTheme.emojiSet[pairIndex]
+//        }
         currentTheme = newTheme
+        
+        print(cards)
     }
 }

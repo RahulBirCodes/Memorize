@@ -16,7 +16,6 @@ struct MemoryGameThemes {
     
     mutating func randomizePairsNum() {
         pairsOfCards = Int.random(in: 2...emojiSet.count)
-        print(pairsOfCards)
     }
     
     init(name: String, emojis: [String], color: String, randomized: Bool) {
