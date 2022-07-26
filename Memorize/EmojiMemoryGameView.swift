@@ -15,7 +15,7 @@ struct EmojiMemoryGameView: View {
         ZStack(alignment: .bottom) {
             VStack {
                 HStack {
-                    Text(game.currentTheme.name)
+                    Text(game.theme.name)
                     Spacer()
                     Text(String(game.score))
                 }
@@ -102,7 +102,7 @@ struct EmojiMemoryGameView: View {
             // All view modifiers that can be animated are being animated including the ones that LazyVGrid uses to position the cards
             withAnimation {
                 dealt = []
-                game.createNewRandomizedGame()
+                game.createNewGame()
             }
         } label: {
             Text("New Game").font(.body)
@@ -125,8 +125,8 @@ struct CardView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Pie(startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 20))
-                    .padding(5).opacity(0.5)
+//                Pie(startAngle: Angle(degrees: -90), endAngle: Angle(degrees: 20))
+//                    .padding(5).opacity(0.5)
                 Text(card.content) 
                     .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
                 // Apple deprecated the other animation used in the lecture and now this works because swift ONLY animates things that change in value, NOT everything
@@ -181,11 +181,11 @@ struct CardView: View {
 
 
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        let game = EmojiMemoryGame()
-        return EmojiMemoryGameView(game: game)
-            .previewDevice("iPhone 13 Pro Max")
-            .preferredColorScheme(.dark)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let game = EmojiMemoryGame()
+//        return EmojiMemoryGameView(game: game)
+//            .previewDevice("iPhone 13 Pro Max")
+//            .preferredColorScheme(.dark)
+//    }
+//}
