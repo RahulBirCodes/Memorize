@@ -14,12 +14,11 @@ struct Theme: Equatable, Identifiable, Codable {
     var pairsOfCards: Int
     var id: String
     
-    fileprivate init(name: String, emojis: String, fill: TopToBottomLinearGradient) {
+    fileprivate init(name: String, emojis: String, fill: TopToBottomLinearGradient, pairsOfCards: Int) {
         self.name = name
         self.id = UUID().uuidString
         self.fill = fill
-        
-        pairsOfCards = Int.random(in: 4...emojis.count)
+        self.pairsOfCards = pairsOfCards
         emojiSet = emojis.removingDuplicateCharacters.map({String($0)}).shuffled()
     }
 }
@@ -52,26 +51,36 @@ class ThemeStore: ObservableObject {
             //  Load default themes
             insertTheme(name: "Vehicles",
                         emojis: "🚀🛸🚁🛶⛵️🚢🚗🏎🚛🚲🛴🚟🚊🛫🛬🛩🛰🚞🚄🚅🚝🚉🛳🚤",
-                        fill: TopToBottomLinearGradient(colors: [Color(red: 1.0, green: 0, blue: 0)]))
+                        fill: TopToBottomLinearGradient(colors: [Color(red: 1.0, green: 0, blue: 0)]),
+                        pairsOfCards: 20)
             insertTheme(name: "Animals",
                         emojis: "🐶🐱🐭🐹🐰🦊🐻🐼🐻‍❄️🐨🐯",
-                        fill: TopToBottomLinearGradient(colors: [Color(red: 0, green: 0, blue: 1)]))
+                        fill: TopToBottomLinearGradient(colors: [Color(red: 0, green: 0, blue: 1)]),
+                        pairsOfCards: 10)
             insertTheme(name: "Tech",
                         emojis: "⌚️📱💻⌨️🖥🖨🖱",
-                        fill: TopToBottomLinearGradient(colors: [Color(red: 0.4, green: 0.4, blue: 0.4)]))
+                        fill: TopToBottomLinearGradient(colors: [Color(red: 0.4, green: 0.4, blue: 0.4)]),
+                        pairsOfCards: 7)
             insertTheme(name: "Weather",
                         emojis: "☀️🌤⛅️☁️🌦🌧⛈🌩🌨",
                         fill: TopToBottomLinearGradient(colors: [Color(red: 0.38, green: 0.64, blue: 0.84, opacity: 1.0),
-                                                                           Color(red: 1.0, green: 0.52, blue: 0.69, opacity: 1.0)]))
+                                                                           Color(red: 1.0, green: 0.52, blue: 0.69, opacity: 1.0)]),
+                        pairsOfCards: 8)
             insertTheme(name: "Sports",
                         emojis: "⚽️🏀🏈⚾️🥎🎾🏐🏉🥏🎱",
                         fill: TopToBottomLinearGradient(colors: [Color(red: 0.96, green: 0.47, blue: 0.12, opacity: 1.0),
-                                                                  Color(red: 0.40, green: 0.60, blue: 0.60, opacity: 1.0)]))
+                                                                  Color(red: 0.40, green: 0.60, blue: 0.60, opacity: 1.0)]),
+                        pairsOfCards: 6)
             insertTheme(name: "Fruits",
                         emojis: "🍏🍐🍊🍋🍌🍉🍇🍓🫐🍈🍒🍑🥭🍍🥥🥝",
                         fill: TopToBottomLinearGradient(colors: [Color(red: 0.42, green: 0.90, blue: 0.52, opacity: 1.0),
-                                                                           Color(red: 0.87, green: 0.24, blue: 0.33, opacity: 1.0)]))
+                                                                           Color(red: 0.87, green: 0.24, blue: 0.33, opacity: 1.0)]),
+                        pairsOfCards: 12)
         }
+    }
+    
+    static func mainColor(for theme: Theme) -> Color {
+        Color(rgbaColor: theme.fill.colors[0])
     }
 
     func theme(at index: Int) -> Theme {
@@ -79,9 +88,9 @@ class ThemeStore: ObservableObject {
         return themes[safeIndex]
     }
     
-    func insertTheme(name: String, emojis: String, fill: TopToBottomLinearGradient, at index: Int = 0) {
+    func insertTheme(name: String, emojis: String, fill: TopToBottomLinearGradient, pairsOfCards: Int, at index: Int = 0) {
         let safeIndex = min(max(index,0), themes.count)
-        themes.insert(Theme(name: name, emojis: emojis, fill: fill), at: safeIndex)
+        themes.insert(Theme(name: name, emojis: emojis, fill: fill, pairsOfCards: pairsOfCards), at: safeIndex)
     }
     
     func removeTheme(at index: Int) {
@@ -101,7 +110,7 @@ struct RGBAColor: Codable, Equatable, Hashable {
 }
 
 struct TopToBottomLinearGradient: Codable, Equatable, Hashable {
-    let colors: [RGBAColor]
+    var colors: [RGBAColor]
 }
 
 extension LinearGradient {

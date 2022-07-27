@@ -14,21 +14,23 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
-                HStack {
-                    Text(game.theme.name)
-                    Spacer()
-                    Text(String(game.score))
-                }
                 gameBody
                 Spacer()
             }
             .padding(.horizontal)
             .font(.largeTitle)
-            
-            VStack {
-                deckBody
-                newGame
-            }
+            deckBody
+        }
+        .navigationTitle(game.theme.name)
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) { newGame }
+        }
+        .overlay(alignment: .topTrailing) {
+            Text(String(game.score))
+                .font(.largeTitle)
+                .offset(y: -50)
+                .padding(.horizontal)
         }
     }
     
@@ -40,6 +42,10 @@ struct EmojiMemoryGameView: View {
     
     private func isUndealt(_ card: EmojiMemoryGame.Card) -> Bool {
         !dealt.description.contains(card.id)
+    }
+    
+    private func gameStarted() -> Bool {
+        game.cards != game.cardsAtBeginningOfGame
     }
     
     private func dealAnimation(for card: EmojiMemoryGame.Card) -> Animation {
@@ -56,7 +62,7 @@ struct EmojiMemoryGameView: View {
     
     var gameBody: some View {
         AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
-            if isUndealt(card) || (card.isMatched && !card.isFaceUp) {
+            if (isUndealt(card) || (card.isMatched && !card.isFaceUp)) && !gameStarted() {
                 // Color can be used as a view and in this case it creates a clear rectangle
                 Color.clear
             } else {
@@ -74,12 +80,12 @@ struct EmojiMemoryGameView: View {
             }
         }
         // We need to do this because before the card views did not appear or disappear from a container that was already on screen, the AspectVGrid appeared with the cards already on there so first we need to make sure the AspectVGrid has appeared
-        .foregroundStyle(game.themeColor)
+        .foregroundStyle(game.themeStyle)
     }
     
     private var deckBody: some View {
         ZStack {
-            ForEach(game.cards.filter(isUndealt)) { card in
+            ForEach(game.cards.filter({ isUndealt($0) && !gameStarted() })) { card in
                 CardView(card: card)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                     .transition(AnyTransition.asymmetric(insertion: .opacity, removal: .identity))
@@ -87,7 +93,7 @@ struct EmojiMemoryGameView: View {
             }
         }
         .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
-        .foregroundStyle(game.themeColor)
+        .foregroundStyle(game.themeStyle)
         .onTapGesture {
             for card in game.cards {
                 withAnimation(dealAnimation(for: card)) {
@@ -181,11 +187,11 @@ struct CardView: View {
 
 
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let game = EmojiMemoryGame()
-//        return EmojiMemoryGameView(game: game)
-//            .previewDevice("iPhone 13 Pro Max")
-//            .preferredColorScheme(.dark)
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        let game = EmojiMemoryGame(theme: ThemeStore().themes[0])
+        return EmojiMemoryGameView(game: game)
+            .previewDevice("iPhone 13 Pro Max")
+            .preferredColorScheme(.dark)
+    }
+}

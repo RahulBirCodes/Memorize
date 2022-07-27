@@ -21,6 +21,8 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
+    var cardsAtBeginningOfGame: [Card] = [Card]()
+    
     static func createMemoryGame(theme: Theme) -> MemoryGame<String> {
         MemoryGame<String>(numberOfPairsOfCards: theme.pairsOfCards) { pairIndex in
             theme.emojiSet[pairIndex]
@@ -30,9 +32,10 @@ class EmojiMemoryGame: ObservableObject {
     init(theme: Theme) {
         self.theme = theme
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
+        cardsAtBeginningOfGame = model.cards
     }
     
-    var cards: Array<Card> {
+    var cards: [Card] {
         return model.cards
     }
     
@@ -40,8 +43,12 @@ class EmojiMemoryGame: ObservableObject {
         return model.score
     }
     
-    var themeColor: LinearGradient {
+    var themeStyle: LinearGradient {
         return LinearGradient(topToBottomLinearGradient: theme.fill)
+    }
+    
+    var mainColor: Color {
+        return Color(rgbaColor: theme.fill.colors[0])
     }
     
     // MARK: - Intent(s)
