@@ -59,5 +59,6 @@ class EmojiMemoryGame: ObservableObject {
     
     func createNewGame() {
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
+        cardsAtBeginningOfGame = model.cards
     }
 }
